@@ -19,18 +19,15 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "User already exists");
   }
 
+  let pic;
   const picLocalPath = req.files?.pic[0]?.path;
   console.log("Pic Local Path", picLocalPath);
-  if (!picLocalPath) {
-    throw new ApiError(400, "Profile pic is required");
-  }
-
-  const pic = await uploadOnCloudinary(picLocalPath);
-
-  console.log("Pic URL", pic);
-
-  if (!pic) {
-    throw new ApiError(500, "Failed to upload profile pic");
+  if (picLocalPath) {
+    pic = await uploadOnCloudinary(picLocalPath);
+    console.log("Pic URL", pic);
+    if (!pic) {
+      throw new ApiError(500, "Failed to upload profile pic");
+    }
   }
 
   const user = await User.create({ name, email, password, pic });

@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import userRouter from "./routes/user.routes.js";
+import userRouter from "./routes/auth.routes.js";
 import { notFound, errorHandler } from "./middlewares/error.middleware.js";
 import dotenv from "dotenv";
 dotenv.config();

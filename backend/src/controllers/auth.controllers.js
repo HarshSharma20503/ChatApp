@@ -3,11 +3,12 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { generateJWTToken } from "../utils/GenerateToken.js";
+import { uploadOnCloudinary } from "../config/cloudinary.js";
 
 const registerUser = asyncHandler(async (req, res) => {
   console.log("******** registerUser Function ********");
 
-  const { name, email, password, pic } = req.body;
+  const { name, email, password } = req.body;
   if (!name || !email || !password) {
     throw new ApiError(400, "All fields are required");
   }
@@ -16,6 +17,20 @@ const registerUser = asyncHandler(async (req, res) => {
   console.log("Existing User", existingUser);
   if (existingUser) {
     throw new ApiError(400, "User already exists");
+  }
+
+  const picLocalPath = req.files?.pic[0]?.path;
+  console.log("Pic Local Path", picLocalPath);
+  if (!picLocalPath) {
+    throw new ApiError(400, "Profile pic is required");
+  }
+
+  const pic = await uploadOnCloudinary(picLocalPath);
+
+  console.log("Pic URL", pic);
+
+  if (!pic) {
+    throw new ApiError(500, "Failed to upload profile pic");
   }
 
   const user = await User.create({ name, email, password, pic });

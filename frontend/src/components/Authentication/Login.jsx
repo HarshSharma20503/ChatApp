@@ -12,11 +12,11 @@ const Login = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const history = useNavigate();
+  const navigate = useNavigate();
   // const { setUser } = ChatState();
 
   const submitHandler = async () => {
@@ -40,8 +40,7 @@ const Login = () => {
         },
       };
 
-      const { data } = await axios.post("/api/user/login", { email, password }, config);
-
+      const { data } = await axios.post("http://localhost:5000/api/user/login", { email, password }, config);
       toast({
         title: "Login Successful",
         status: "success",
@@ -49,10 +48,10 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
-      setUser(data);
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      // setUser(data.data);
+      localStorage.setItem("userInfo", JSON.stringify(data.data));
       setLoading(false);
-      history.push("/chats");
+      navigate("/chats");
     } catch (error) {
       toast({
         title: "Error Occured!",

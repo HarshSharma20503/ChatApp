@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import connectDB from "./config/connectDB.js";
 import { app } from "./app.js";
+import { chats } from "./data/data.js";
 
 dotenv.config({
   path: "./.env",

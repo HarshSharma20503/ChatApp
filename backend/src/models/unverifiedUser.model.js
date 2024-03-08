@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import bcrypt from "bcrypt";
 
 const unverifiedUserSchema = new Schema(
   {
@@ -22,5 +23,16 @@ const unverifiedUserSchema = new Schema(
   },
   { timestamps: true }
 );
+
+unverifiedUserSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+unverifiedUserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+  this.password = await bcrypt.hash(this.password, 12);
+});
 
 export const UnverifiedUser = mongoose.model("UnverifiedUser", unverifiedUserSchema);

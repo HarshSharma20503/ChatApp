@@ -26,8 +26,9 @@ const uploadPicOnCloudinary = asyncHandler(async (req, res) => {
 
 const registerUser = asyncHandler(async (req, res) => {
   console.log("******** registerUser Function ********");
-
+  console.log("Request Body", req.body);
   const { name, email, password, pic } = req.body;
+  console.log("User details", name, email, password, pic);
   if (!name || !email || !password) {
     throw new ApiError(400, "All fields are required");
   }

@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;1,300&display=swap");
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  background-image: url("https://www.shutterstock.com/image-vector/social-media-sketch-vector-seamless-600nw-1660950727.jpg");
+  /* background-position: center;
+  background-size: cover; */
+  color: black;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.281);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

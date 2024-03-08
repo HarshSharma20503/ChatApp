@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import userRouter from "./routes/auth.routes.js";
+import authRouter from "./routes/auth.routes.js";
 import { notFound, errorHandler } from "./middlewares/error.middleware.js";
 import dotenv from "dotenv";
 dotenv.config();
@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" })); // to parse url
 app.use(express.static("public")); // to use static public folder
 app.use(cookieParser()); // to enable CRUD operation on browser cookies
 
-app.use("/api/user", userRouter);
+app.use("/api/auth", authRouter);
 app.use(notFound);
 app.use(errorHandler);
 

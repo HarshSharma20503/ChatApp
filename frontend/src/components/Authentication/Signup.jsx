@@ -11,7 +11,7 @@ const Signup = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -51,7 +51,7 @@ const Signup = () => {
         },
       };
       const { data } = await axios.post(
-        "/api/user",
+        "http://localhost:5000/api/auth/register",
         {
           name,
           email,
@@ -62,15 +62,14 @@ const Signup = () => {
       );
       console.log(data);
       toast({
-        title: "Registration Successful",
+        title: "Please verify your email to continue",
         status: "success",
         duration: 5000,
         isClosable: true,
         position: "bottom",
       });
-      localStorage.setItem("userInfo", JSON.stringify(data));
       setPicLoading(false);
-      history.push("/chats");
+      navigate("/");
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -84,7 +83,7 @@ const Signup = () => {
     }
   };
 
-  const postDetails = (pics) => {
+  const postDetails = async (pics) => {
     setPicLoading(true);
     if (pics === undefined) {
       toast({
@@ -99,23 +98,20 @@ const Signup = () => {
     console.log(pics);
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
-      data.append("file", pics);
-      data.append("upload_preset", "chat-app");
-      data.append("cloud_name", "dmsxgvl93");
-      fetch("https://api.cloudinary.com/v1_1/dmsxgvl93/image/upload", {
-        method: "post",
-        body: data,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setPic(data.url.toString());
-          console.log(data.url.toString());
-          setPicLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setPicLoading(false);
-        });
+      data.append("pic", pics);
+      console.log("Data: ", data);
+      try {
+        const response = await axios.post("http://localhost:5000/api/auth/uploadPic", data);
+        setPic(response.data.data.url);
+        console.log("Pic url:", response.data.data.url);
+        setPicLoading(false);
+      } catch (err) {
+        console.log(err);
+        if (err.response.status === 500) {
+          console.log("Error Message:", err.response.data.message);
+        }
+        setPicLoading(false);
+      }
     } else {
       toast({
         title: "Please Select an Image!",

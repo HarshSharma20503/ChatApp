@@ -18,7 +18,7 @@ const sendConfirmationMail = async (to, id) => {
     from: process.env.EMAIL_ID,
     to: [to],
     subject: "Email Verification for MERN Chat App",
-    html: `<h1>Click <a href=http://localhost:5000/api/auth/confirmEmail/${id}">here</a> to confirm your email</h1>`,
+    html: `<h1>Click <a href=http://localhost:5000/api/auth/confirmEmail/${id}>here</a> to confirm your email</h1>`,
   };
 
   try {

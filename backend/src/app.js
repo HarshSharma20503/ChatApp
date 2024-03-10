@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes.js";
+import userRouter from "./routes/user.routes.js";
+import chatRouter from "./routes/chat.routes.js";
 import { notFound, errorHandler } from "./middlewares/error.middleware.js";
 import dotenv from "dotenv";
 dotenv.config();
@@ -21,6 +23,8 @@ app.use(express.static("public")); // to use static public folder
 app.use(cookieParser()); // to enable CRUD operation on browser cookies
 
 app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
+app.use("/api/chat", chatRouter);
 app.use(notFound);
 app.use(errorHandler);
 

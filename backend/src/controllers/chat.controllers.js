@@ -85,4 +85,49 @@ const createGroupChat = asyncHandler(async (req, res) => {
   }
 });
 
-export { accessChat, getChats, createGroupChat };
+const renameGroup = asyncHandler(async (req, res) => {
+  const { chatId, chatName } = req.body;
+  const updatedChat = await Chat.findByIdAndUpdate(chatId, { chatName: chatName }, { new: true })
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+
+  if (!updatedChat) throw new ApiError(400, "Chat not found");
+  else {
+    return res.status(200).json(new ApiResponse(200, updatedChat, "Chat Renamed"));
+  }
+});
+
+const addToGroup = asyncHandler(async (req, res) => {
+  console.log("******** Add to Group Function *********");
+  const { chatId, userId } = req.body;
+  console.log("chatId", chatId);
+  console.log("userId", userId);
+  const added = await Chat.findByIdAndUpdate(chatId, { $push: { users: userId } }, { new: true })
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+  // console.log("Added ", added);
+  if (!added) {
+    console.log("Chat Not Found");
+    throw new ApiError(400, "Chat Not Found");
+  } else {
+    return res.status(200).json(new ApiResponse(200, added, "Added to group"));
+  }
+});
+
+const removeFromGroup = asyncHandler(async (req, res) => {
+  console.log("******** Remove from Group Function *********");
+  const { chatId, userId } = req.body;
+  console.log("chatId", chatId);
+  console.log("userId", userId);
+  const removed = await Chat.findByIdAndUpdate(chatId, { $pull: { users: userId } }, { new: true })
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+  if (!removed) {
+    console.log("Chat Not Found");
+    throw new ApiError(400, "Chat Not Found");
+  } else {
+    return res.status(200).json(new ApiResponse(200, removed, "Removed from group"));
+  }
+});
+
+export { accessChat, getChats, createGroupChat, renameGroup, addToGroup, removeFromGroup };

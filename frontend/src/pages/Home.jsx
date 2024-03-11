@@ -2,8 +2,18 @@ import { Box, Container, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@
 import { useEffect } from "react";
 import Login from "../components/Authentication/Login";
 import Signup from "../components/Authentication/Signup";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userInfoString = JSON.parse(localStorage.getItem("userInfo"));
+    if (userInfoString) {
+      navigate("/chats");
+    }
+  }, []);
+
   return (
     <Container maxW="xl" centerContent>
       <Box

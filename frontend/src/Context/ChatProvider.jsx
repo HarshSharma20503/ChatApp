@@ -17,7 +17,7 @@ const ChatProvider = ({ children }) => {
         console.error("Error parsing userInfo:", error);
       }
     } else {
-      navigate("/login");
+      navigate("/");
     }
   }, []);
 

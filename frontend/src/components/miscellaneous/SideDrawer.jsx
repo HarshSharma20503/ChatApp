@@ -5,19 +5,19 @@ import { Box, Text } from "@chakra-ui/layout";
 import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay } from "@chakra-ui/modal";
 import { Tooltip } from "@chakra-ui/tooltip";
-import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
+// import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { Avatar } from "@chakra-ui/avatar";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
 import ChatLoading from "../ChatLoading";
 import { Spinner } from "@chakra-ui/spinner";
 import ProfileModal from "./ProfileModal";
-import NotificationBadge from "react-notification-badge";
-import { Effect } from "react-notification-badge";
+// import NotificationBadge from "react-notification-badge";
+// import { Effect } from "react-notification-badge";
 import { getSender } from "../../config/ChatLogics";
-import UserListItem from "../userAvatar/UserListItem";
+// import UserListItem from "../userAvatar/UserListItem";
 import { ChatState } from "../../Context/ChatProvider";
 
 function SideDrawer() {
@@ -30,7 +30,7 @@ function SideDrawer() {
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const history = useHistory();
+  // const history = useHistory();
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
@@ -177,13 +177,15 @@ function SideDrawer() {
               />
               <Button onClick={handleSearch}>Go</Button>
             </Box>
-            {loading ? (
-              <ChatLoading />
-            ) : (
-              searchResult?.map((user) => (
-                <UserListItem key={user._id} user={user} handleFunction={() => accessChat(user._id)} />
-              ))
-            )}
+            {
+              // loading ? (
+              //   <ChatLoading />
+              // ) : (
+              //   searchResult?.map((user) => (
+              //     <UserListItem key={user._id} user={user} handleFunction={() => accessChat(user._id)} />
+              //   ))
+              // )
+            }
             {loadingChat && <Spinner ml="auto" d="flex" />}
           </DrawerBody>
         </DrawerContent>

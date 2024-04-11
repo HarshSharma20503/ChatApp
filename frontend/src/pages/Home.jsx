@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <Container maxW="xl" centerContent>
       <Box
-        d="flex"
+        display="flex"
         justifyContent="center"
         alignItems={"center"}
         p={3}

@@ -12,6 +12,11 @@ const ChatProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const handleUrlChange = () => {
+      // Your logic to run when there is a change in the URL
+      console.log("URL has changed:", window.location.href);
+    };
+    window.addEventListener("popstate", handleUrlChange);
     const userInfoString = localStorage.getItem("userInfo");
     if (userInfoString) {
       try {
@@ -23,7 +28,10 @@ const ChatProvider = ({ children }) => {
     } else {
       navigate("/");
     }
-  }, []);
+    return () => {
+      window.removeEventListener("popstate", handleUrlChange);
+    };
+  }, [window.location.href]);
 
   return (
     <ChatContext.Provider

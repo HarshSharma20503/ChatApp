@@ -63,7 +63,7 @@ const Signup = () => {
       );
       console.log(data);
       toast({
-        title: "Please verify your email to continue",
+        title: "Please verify your email and Login to Continue",
         status: "success",
         duration: 5000,
         isClosable: true,

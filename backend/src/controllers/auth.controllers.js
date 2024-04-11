@@ -72,11 +72,12 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const confirmEmail = asyncHandler(async (req, res) => {
+  console.log("******** confirmEmail Function ********");
   const { id } = req.params;
   if (!id) {
     throw new ApiError(400, "Invalid request");
   }
-
+  console.log("User ID", id);
   const unverifiedUser = await UnverifiedUser.findById(id);
   if (!unverifiedUser) {
     throw new ApiError(404, "User not found");
@@ -92,7 +93,7 @@ const confirmEmail = asyncHandler(async (req, res) => {
   if (!user) {
     throw new ApiError(500, "Failed to create User");
   }
-
+  console.log("User Created", user);
   await UnverifiedUser.deleteOne({ _id: unverifiedUser._id });
 
   return res.status(200).send("Email confirmed. You can now login");
@@ -108,6 +109,13 @@ const loginUser = asyncHandler(async (req, res) => {
   console.log("User details", email, password);
 
   const user = await User.findOne({ email });
+
+  // if (!user) {
+  //   throw new ApiError(401, "User does not exist");
+  // }
+
+  console.log("User Details: ", user);
+
   if (user && (await user.matchPassword(password))) {
     return res.status(200).json(
       new ApiResponse(

@@ -6,6 +6,7 @@ import { Chat } from "../models/chat.model.js";
 import mongoose from "mongoose";
 
 const accessChat = asyncHandler(async (req, res) => {
+  console.log("******** Access Chat Function *********");
   const { userId } = req.body;
   if (!userId) throw new ApiError(400, "userId is required");
 
@@ -37,6 +38,7 @@ const accessChat = asyncHandler(async (req, res) => {
 });
 
 const getChats = asyncHandler(async (req, res) => {
+  console.log("******** getChats Function ********");
   try {
     const chats = await Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
       .populate("users", "-password")

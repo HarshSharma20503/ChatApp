@@ -47,7 +47,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     //     },
     //   };
     //   setLoading(true);
-    //   const { data } = await axios.get(`/api/message/${selectedChat._id}`, config);
+    //   const { data } = await axios.get(`http://localhost:5000/api/message/${selectedChat._id}`, config);
     //   setMessages(data);
     //   setLoading(false);
     //   socket.emit("join chat", selectedChat._id);
@@ -75,7 +75,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         };
         setNewMessage("");
         const { data } = await axios.post(
-          "/api/message",
+          "http://localhost:5000/api/message",
           {
             content: newMessage,
             chatId: selectedChat,
@@ -150,7 +150,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   return (
     <>
-      {/* {selectedChat ? (
+      {selectedChat ? (
         <>
           <Text
             fontSize={{ base: "28px", md: "30px" }}
@@ -233,7 +233,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             Click on a user to start chatting
           </Text>
         </Box>
-      )} */}
+      )}
     </>
   );
 };

@@ -29,6 +29,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [renameloading, setRenameLoading] = useState(false);
+
   const toast = useToast();
 
   const { selectedChat, setSelectedChat, user } = ChatState();
@@ -46,10 +47,10 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      const { data } = await axios.get(`http://localhost:5000/api/user?search=${search}`, config);
       console.log(data);
       setLoading(false);
-      setSearchResult(data);
+      setSearchResult(data.data);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -74,7 +75,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         },
       };
       const { data } = await axios.put(
-        `/api/chat/rename`,
+        `http://localhost:5000/api/chat/rename`,
         {
           chatId: selectedChat._id,
           chatName: groupChatName,
@@ -82,9 +83,9 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         config
       );
 
-      console.log(data._id);
+      console.log(data.data._id);
       // setSelectedChat("");
-      setSelectedChat(data);
+      setSelectedChat(data.data);
       setFetchAgain(!fetchAgain);
       setRenameLoading(false);
     } catch (error) {
@@ -132,7 +133,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         },
       };
       const { data } = await axios.put(
-        `/api/chat/groupadd`,
+        `http://localhost:5000/api/chat/groupadd`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
@@ -140,7 +141,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         config
       );
 
-      setSelectedChat(data);
+      setSelectedChat(data.data);
       setFetchAgain(!fetchAgain);
       setLoading(false);
     } catch (error) {
@@ -177,7 +178,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         },
       };
       const { data } = await axios.put(
-        `/api/chat/groupremove`,
+        `http://localhost:5000/api/chat/groupremove`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
@@ -185,7 +186,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         config
       );
 
-      user1._id === user._id ? setSelectedChat() : setSelectedChat(data);
+      user1._id === user._id ? setSelectedChat() : setSelectedChat(data.data);
       setFetchAgain(!fetchAgain);
       fetchMessages();
       setLoading(false);

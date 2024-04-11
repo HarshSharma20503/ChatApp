@@ -75,6 +75,17 @@ const GroupChatModal = ({ children }) => {
   };
 
   const handleDelete = (delUser) => {
+    console.log("Deleting User", delUser);
+    if (selectedUsers.length <= 2) {
+      toast({
+        title: "Group Chat must have atleast 2 users",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
     setSelectedUsers(selectedUsers.filter((sel) => sel._id !== delUser._id));
   };
 
@@ -82,6 +93,17 @@ const GroupChatModal = ({ children }) => {
     if (!groupChatName || !selectedUsers) {
       toast({
         title: "Please fill all the feilds",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
+
+    if (selectedUsers.length < 2) {
+      toast({
+        title: "Please add atleast 2 users",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -104,6 +126,7 @@ const GroupChatModal = ({ children }) => {
         },
         config
       );
+      console.log("Group Chat Created", data.data);
       setChats([data.data, ...chats]);
       onClose();
       toast({
@@ -114,6 +137,8 @@ const GroupChatModal = ({ children }) => {
         position: "bottom",
       });
     } catch (error) {
+      console.log("Error in creating group chat");
+      onClose();
       toast({
         title: "Failed to Create the Chat!",
         description: error.response.data,

@@ -56,7 +56,7 @@ const MyChats = ({ fetchAgain }) => {
       borderRadius="lg"
       borderWidth="1px"
     >
-      <Box
+      {/* <Box
         pb={3}
         px={3}
         fontSize={{ base: "28px", md: "30px" }}
@@ -67,11 +67,11 @@ const MyChats = ({ fetchAgain }) => {
         alignItems="center"
       >
         My Chats
-        {/* <GroupChatModal> */}
-        {/* <Button d="flex" fontSize={{ base: "17px", md: "10px", lg: "17px" }} rightIcon={<AddIcon />}> */}
-        {/* New Group Chat */}
-        {/* </Button> */}
-        {/* </GroupChatModal> */}
+        <GroupChatModal>
+        <Button d="flex" fontSize={{ base: "17px", md: "10px", lg: "17px" }} rightIcon={<AddIcon />}>
+        New Group Chat
+        </Button>
+        </GroupChatModal>
       </Box>
       <Box d="flex" flexDir="column" p={3} bg="#F8F8F8" w="100%" h="100%" borderRadius="lg" overflowY="hidden">
         {chats ? (
@@ -102,7 +102,7 @@ const MyChats = ({ fetchAgain }) => {
         ) : (
           <ChatLoading />
         )}
-      </Box>
+      </Box> */}
     </Box>
   );
 };

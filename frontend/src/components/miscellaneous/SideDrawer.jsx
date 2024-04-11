@@ -5,7 +5,7 @@ import { Box, Text } from "@chakra-ui/layout";
 import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/menu";
 import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay } from "@chakra-ui/modal";
 import { Tooltip } from "@chakra-ui/tooltip";
-// import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { Avatar } from "@chakra-ui/avatar";
 // import { useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -27,7 +27,7 @@ function SideDrawer() {
   const [loadingChat, setLoadingChat] = useState(false);
 
   const { setSelectedChat, user, notification, setNotification, chats, setChats } = ChatState();
-
+  console.log(user);
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const history = useHistory();
@@ -106,12 +106,13 @@ function SideDrawer() {
   return (
     <>
       <Box
-        d="flex"
+        display="flex"
         justifyContent="space-between"
+        direction="row" // Use direction instead of flexDirection
         alignItems="center"
         bg="white"
         w="100%"
-        p="5px 10px 5px 10px"
+        p="5px 10px"
         borderWidth="5px"
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
@@ -128,10 +129,10 @@ function SideDrawer() {
         <div>
           <Menu>
             <MenuButton p={1}>
-              <NotificationBadge count={notification.length} effect={Effect.SCALE} />
+              {/* <NotificationBadge count={notification.length} effect={Effect.SCALE} /> */}
               <BellIcon fontSize="2xl" m={1} />
             </MenuButton>
-            <MenuList pl={2}>
+            {/* <MenuList pl={2}>
               {!notification.length && "No New Messages"}
               {notification.map((notif) => (
                 <MenuItem
@@ -146,16 +147,15 @@ function SideDrawer() {
                     : `New Message from ${getSender(user, notif.chat.users)}`}
                 </MenuItem>
               ))}
-            </MenuList>
+            </MenuList> */}
           </Menu>
           <Menu>
             <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
               <Avatar size="sm" cursor="pointer" name={user.name} src={user.pic} />
             </MenuButton>
             <MenuList>
-              <ProfileModal user={user}>
-                <MenuItem>My Profile</MenuItem>{" "}
-              </ProfileModal>
+              {/* <ProfileModal user={user}> */}
+              <MenuItem>My Profile</MenuItem> {/* </ProfileModal> */}
               <MenuDivider />
               <MenuItem onClick={logoutHandler}>Logout</MenuItem>
             </MenuList>
@@ -163,7 +163,7 @@ function SideDrawer() {
         </div>
       </Box>
 
-      <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
+      {/* <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
@@ -189,7 +189,7 @@ function SideDrawer() {
             {loadingChat && <Spinner ml="auto" d="flex" />}
           </DrawerBody>
         </DrawerContent>
-      </Drawer>
+      </Drawer> */}
     </>
   );
 }

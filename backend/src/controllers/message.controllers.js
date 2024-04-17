@@ -50,14 +50,11 @@ const sendMessage = asyncHandler(async (req, res) => {
 
 const allMessages = asyncHandler(async (req, res) => {
   console.log("******** allMessages Function *********");
-  const chatId = req.params.chatId;
-  if (!chatId) throw new ApiError(400, "chatId is required");
-
   try {
-    const chat = await Chat.findById(chatId);
-    if (!chat) throw new ApiError(404, "Chat not found");
-
-    res.status(200).json(new ApiResponse(200, chat.messages, "All messages"));
+    const messages = await Message.find({ chat: req.params.chatId })
+      .populate("sender", "name pic email")
+      .populate("chat");
+    return res.status(200).json(new ApiResponse(200, messages, "Messages retrieved"));
   } catch (err) {
     console.log("error", err);
     throw new ApiError(500, "Messages not found");

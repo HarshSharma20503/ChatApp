@@ -39,33 +39,33 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { selectedChat, setSelectedChat, user, notification, setNotification } = ChatState();
 
   const fetchMessages = async () => {
-    // if (!selectedChat) return;
-    // try {
-    //   const config = {
-    //     headers: {
-    //       Authorization: `Bearer ${user.token}`,
-    //     },
-    //   };
-    //   setLoading(true);
-    //   const { data } = await axios.get(`http://localhost:5000/api/message/${selectedChat._id}`, config);
-    //   setMessages(data);
-    //   setLoading(false);
-    //   socket.emit("join chat", selectedChat._id);
-    // } catch (error) {
-    //   toast({
-    //     title: "Error Occured!",
-    //     description: "Failed to Load the Messages",
-    //     status: "error",
-    //     duration: 5000,
-    //     isClosable: true,
-    //     position: "bottom",
-    //   });
-    // }
+    if (!selectedChat) return;
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      setLoading(true);
+      const { data } = await axios.get(`http://localhost:5000/api/message/${selectedChat._id}`, config);
+      setMessages(data.data);
+      setLoading(false);
+      // socket.emit("join chat", selectedChat._id);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: "Failed to Load the Messages",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
   };
 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
-      socket.emit("stop typing", selectedChat._id);
+      // socket.emit("stop typing", selectedChat._id);
       try {
         const config = {
           headers: {
@@ -82,8 +82,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
           config
         );
-        socket.emit("new message", data);
-        setMessages([...messages, data]);
+        console.log(data.data);
+        // socket.emit("new message", data);
+        setMessages([...messages, data.data]);
       } catch (error) {
         toast({
           title: "Error Occured!",
@@ -130,7 +131,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   });
 
   const typingHandler = (e) => {
-    // setNewMessage(e.target.value);
+    setNewMessage(e.target.value);
     // if (!socketConnected) return;
     // if (!typing) {
     //   setTyping(true);

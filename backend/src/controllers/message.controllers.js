@@ -3,6 +3,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Chat } from "../models/chat.model.js";
 import { Message } from "../models/message.model.js";
+import { User } from "../models/user.model.js";
 
 const sendMessage = asyncHandler(async (req, res) => {
   console.log("******** sendMessage Function *********");
@@ -19,14 +20,19 @@ const sendMessage = asyncHandler(async (req, res) => {
       chat: chatId,
     };
 
+    console.log("newMessage", newMessage);
+
     try {
       var message = await Message.create(newMessage);
-      message = await message.populate("sender", "name pic").execPopulate();
-      message = await message.populate("chat").execPopulate();
-      message = await UserActivation.populate(message, {
+      message = await message.populate("sender", "name pic");
+      message = await message.populate("chat");
+      message = await User.populate(message, {
         path: "chat.users",
         select: "name pic email",
       });
+
+      console.log("message", message);
+
       await Chat.findByIdAndUpdate(req.body.chatId, {
         latestMessage: message,
       });

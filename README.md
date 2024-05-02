@@ -41,8 +41,16 @@ To get started with the project, follow these steps:
    PORT=5000
    MONGODB_URI=your_mongodb_connection_string
    CORS_ORIGIN = *
+   JWT_SECRET = 
+
+   CLOUDINARY_CLOUD_NAME = 
+   CLOUDINARY_API_KEY = 
+   CLOUDINARY_API_SECRET = 
+
+   EMAIL_ID = 
+   APP_PASSWORD = 
    ```
-   Replace with your own mongoDB atlas string
+   Replace with your own mongoDB atlas string for database, cloudinary keys for uploading images, and email and app password for verification mail using nodemailer.
    
 5. Run the Backend Server from inside backend folder
    
